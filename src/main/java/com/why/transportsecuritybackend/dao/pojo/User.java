@@ -1,7 +1,9 @@
 package com.why.transportsecuritybackend.dao.pojo;
 
 import com.why.transportsecuritybackend.common.constants.CommonConstants;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.stream.Collectors;
  * @date 2023/04/29 11:18
  **/
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     /**
@@ -40,6 +44,13 @@ public class User {
      * 角色
      */
     private String roles;
+
+    public User(String account, String password, String salt, String roles) {
+        this.account = account;
+        this.password = password;
+        this.salt = salt;
+        this.roles = roles;
+    }
 
     public List<Integer> getRoleList() {
         List<String> rolesStr = Arrays.asList(this.roles.split(CommonConstants.COMMA_SPILT));

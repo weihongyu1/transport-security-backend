@@ -7,5 +7,20 @@ spring:
   datasource:
     password: root
     username: root
-    url: jdbc:mysql://localhost:3306/transport_security?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/db_transport_security?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 106.52.60.176
+    port: 6379
+    password: brysj$@!HHRHL
+    database: 0
+    lettuce:
+      pool:
+        max-idle: 16
+        max-active: 32
+        min-idle: 8
+
+auth:
+  white-uris:
+    - '/auth/login'
+    - '/auth/register'
