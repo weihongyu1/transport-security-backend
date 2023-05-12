@@ -65,7 +65,7 @@ public class RedisUtils {
      * @param key 键
      * @return
      */
-    public void sSet(String key, String value) {
+    public void sSet(String key, Object value) {
         redisTemplate.opsForSet().add(key, value);
     }
 
