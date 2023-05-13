@@ -1,6 +1,8 @@
 package com.why.transportsecuritybackend.dao.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +13,8 @@ import java.time.LocalDateTime;
  * @date 2023/04/30 01:17
  **/
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Ax {
     /**
      * 主键id
@@ -36,4 +40,9 @@ public class Ax {
      * 更新时间
      */
     private LocalDateTime updateTime;
+
+    public Ax(double ax, Integer accidentId) {
+        this.ax = ax;
+        this.accidentId = accidentId;
+    }
 }

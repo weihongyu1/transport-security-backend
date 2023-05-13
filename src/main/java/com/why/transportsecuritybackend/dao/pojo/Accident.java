@@ -1,6 +1,8 @@
 package com.why.transportsecuritybackend.dao.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,6 +14,8 @@ import java.time.LocalDateTime;
  * @date 2023/04/30 01:08
  **/
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Accident {
 
     /**
@@ -48,4 +52,11 @@ public class Accident {
      * 更新时间
      */
     private LocalDateTime updateTime;
+
+    public Accident(double lng, double lat, Integer vehicleId, Integer resolveState) {
+        this.lng = lng;
+        this.lat = lat;
+        this.vehicleId = vehicleId;
+        this.resolveState = resolveState;
+    }
 }

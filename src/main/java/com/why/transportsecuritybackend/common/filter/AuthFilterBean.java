@@ -2,6 +2,8 @@ package com.why.transportsecuritybackend.common.filter;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.why.transportsecuritybackend.common.config.AuthWhiteUriConfig;
 import com.why.transportsecuritybackend.common.constants.RedisConstants;
 import com.why.transportsecuritybackend.common.constants.ResponseConstants;
@@ -77,6 +79,6 @@ public class AuthFilterBean implements Filter {
         map.put("code", ResponseConstants.AUTH_ERROR);
         map.put("msg", ResponseConstants.MSG_AUTH_ERROR);
         map.put("data", null);
-        writer.write(map.toString());
+        writer.write(JSONObject.toJSONString(map));
     }
 }

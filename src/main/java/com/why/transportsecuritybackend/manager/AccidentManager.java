@@ -98,4 +98,13 @@ public class AccidentManager {
     public List<Accident> selectAccidentByVehicleId(Integer vehicleId) {
         return accidentMapper.selectAccidentByVehicleId(vehicleId);
     }
+
+    /**
+     * 新增事故信息
+     * @param accident 事故数据
+     * @return id
+     */
+    public Integer insertAccident(Accident accident) {
+        return accidentMapper.insert(accident);
+    }
 }

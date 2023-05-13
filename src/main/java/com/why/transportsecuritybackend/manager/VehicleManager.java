@@ -82,4 +82,22 @@ public class VehicleManager {
     public void deleteVehicle(Integer id) {
         vehicleMapper.delete(id);
     }
+
+    /**
+     * 根据id查询车辆类型
+     * @param id id
+     * @return 车辆类型
+     */
+    public VehicleType selectVehicleTypeById(Integer id) {
+        return vehicleTypeMapper.selectById(id);
+    }
+
+    /**
+     * 根据车牌号查询车辆信息
+     * @param vehicleNumber 车牌号
+     * @return 车辆信息
+     */
+    public Integer selectVehicleByNumber(String vehicleNumber) {
+        return vehicleMapper.selectByVehicleNumber(vehicleNumber);
+    }
 }

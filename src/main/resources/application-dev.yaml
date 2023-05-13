@@ -24,3 +24,16 @@ auth:
   white-uris:
     - '/auth/login'
     - '/auth/register'
+
+# Socket配置
+socket:
+  # 监听端口 8888
+  port: 9999
+  # 线程池 - 保持线程数 20
+  pool-keep: 5
+  # 线程池 - 核心线程数 10
+  pool-core: 2
+  # 线程池 - 最大线程数 20
+  pool-max: 10
+  # 线程队列容量 10
+  pool-queue-init: 2

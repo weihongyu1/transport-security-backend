@@ -4,6 +4,9 @@ import com.why.transportsecuritybackend.common.response.Result;
 import com.why.transportsecuritybackend.entity.dto.AccelerationDTO;
 import com.why.transportsecuritybackend.entity.dto.AccidentStateCountDTO;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -90,6 +93,20 @@ public interface AccidentService {
      * 更新事故状态
      * @param state 事故状态
      * @param accidentId 事故id
+     * @return 响应信息
      */
-    public Result updateAccidentState(Integer state, Integer accidentId);
+     Result updateAccidentState(Integer state, Integer accidentId);
+
+    /**
+     * 事故数据下载
+     * @param accidentId 事故id
+     * @param response http response
+     */
+    void downloadAccident(Integer accidentId, HttpServletResponse response);
+
+    /**
+     * 新增事故信息
+     * @param info 信息
+     */
+    void insert(String info);
 }

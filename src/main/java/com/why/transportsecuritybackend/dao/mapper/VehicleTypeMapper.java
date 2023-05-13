@@ -1,10 +1,7 @@
 package com.why.transportsecuritybackend.dao.mapper;
 
 import com.why.transportsecuritybackend.dao.pojo.VehicleType;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -32,4 +29,18 @@ public interface VehicleTypeMapper {
     })
     @Select("SELECT " + FIELDS + " FROM " + TABLE)
     List<VehicleType> selectVehicleType();
+
+    /**
+     * 根据id查询车辆类型
+     * @param id id
+     * @return 车辆类型
+     */
+    @Results({
+            @Result(property = "id", column = "id"),
+            @Result(property = "vehicleType", column = "vehicle_type"),
+            @Result(property = "createTime", column = "create_time"),
+            @Result(property = "updateTime", column = "update_time"),
+    })
+    @Select("SELECT " + FIELDS + " FROM " + TABLE + " WHERE id = #{id}")
+    VehicleType selectById(@Param("id") Integer id);
 }

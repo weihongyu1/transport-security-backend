@@ -4,25 +4,26 @@ import cn.hutool.core.bean.BeanUtil;
 import com.why.transportsecuritybackend.common.response.Result;
 import com.why.transportsecuritybackend.common.selfenum.AccidentResolveStateEnum;
 import com.why.transportsecuritybackend.common.utils.BaiduMapUtils;
+import com.why.transportsecuritybackend.common.utils.NumberUtils;
+import com.why.transportsecuritybackend.common.utils.OutputFileUtils;
 import com.why.transportsecuritybackend.common.utils.accident.AccidentUtils;
-import com.why.transportsecuritybackend.dao.pojo.Accident;
-import com.why.transportsecuritybackend.dao.pojo.Ax;
-import com.why.transportsecuritybackend.dao.pojo.Ay;
-import com.why.transportsecuritybackend.dao.pojo.Vehicle;
+import com.why.transportsecuritybackend.dao.pojo.*;
 import com.why.transportsecuritybackend.entity.dto.*;
 import com.why.transportsecuritybackend.manager.AccidentManager;
 import com.why.transportsecuritybackend.manager.AxManager;
 import com.why.transportsecuritybackend.manager.AyManager;
 import com.why.transportsecuritybackend.manager.VehicleManager;
 import com.why.transportsecuritybackend.service.AccidentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  * @author why
  * @date 2023/05/05 23:43
  **/
+@Slf4j
 @Service
 public class AccidentServiceImpl implements AccidentService {
 
@@ -38,6 +40,7 @@ public class AccidentServiceImpl implements AccidentService {
     private static final String HIGH_LEVEL = "严重损伤";
     private static final String LOW_LEVEL = "一般损伤";
     private static final String POP = "弹开";
+    private static final Integer NONE_RESOLVE = 0;
 
     private final AccidentManager accidentManager;
     private final VehicleManager vehicleManager;
@@ -193,8 +196,132 @@ public class AccidentServiceImpl implements AccidentService {
         return Result.success();
     }
 
+    @Override
+    public void downloadAccident(Integer accidentId, HttpServletResponse response) {
+        Accident accident = accidentManager.selectAccidentById(accidentId);
+        Vehicle vehicle = vehicleManager.selectById(accident.getVehicleId());
+        List<Ax> axes = axManager.selectAx(accidentId);
+        List<Double> axList = axes.stream().map(Ax::getAx).collect(Collectors.toList());
+        List<Ay> ays = ayManager.selectAy(accidentId);
+        List<Double> ayList = ays.stream().map(Ay::getAy).collect(Collectors.toList());
+        String accidentLevel = getAccidentLevel(accident);
+
+        String address = BaiduMapUtils.getAddress(accident.getLng(), accident.getLat());
+        String direction = getDirection(axList, ayList);
+        VehicleType vehicleType = vehicleManager.selectVehicleTypeById(vehicle.getVehicleType());
+        LocalDateTime createTime = accident.getCreateTime();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String accidentDate = dtf.format(createTime);
+        AccidentExcelDTO accidentExcelDTO = new AccidentExcelDTO(
+                vehicle.getVehicleOwner(),
+                vehicle.getVehicleNumber(),
+                vehicleType.getVehicleType(),
+                accidentLevel,
+                accidentLevel,
+                accidentDate,
+                accident.getLng(),
+                accident.getLat(),
+                address,
+                direction,
+                POP,
+                axList,
+                ayList
+        );
+        List<AccidentExcelDTO> data = new ArrayList<>();
+        data.add(accidentExcelDTO);
+        OutputFileUtils.outputFile(data, response);
+    }
+
+    @Override
+    public void insert(String info) {
+        String[] infos = info.split("\n");
+
+        // 处理经纬度
+        String[] lngStr = infos[1].split(" ");
+        String[] latStr = infos[2].split(" ");
+        double lng = Double.valueOf(lngStr[0].trim().substring(10));
+        double lat = Double.valueOf(latStr[0].trim().substring(9));
+
+        // 处理车牌号
+        String vehicleNumber = infos[4].trim().substring(4, 12);
+
+        // 处理ax，ay
+        String axStr = infos[4].trim().substring(14);
+        String ayStr = infos[5].trim().substring(3);
+        String[] axs = axStr.split(",");
+        // 处理ax
+        List<Double> axList = new ArrayList<>();
+        for (int i = 0; i < axs.length; i++) {
+            axList.add(NumberUtils.strToDoubleValue(axs[i].trim()));
+        }
+
+        // 处理ay
+        String[] ays = ayStr.trim().split(",");
+        List<Double> ayList = new ArrayList<>();
+        for (int i = 0; i < ays.length; i++) {
+            ayList.add(NumberUtils.strToDoubleValue(ays[i].trim()));
+        }
+
+        // 查出车辆id
+        Integer vehicleId = vehicleManager.selectVehicleByNumber(vehicleNumber);
+
+        if (vehicleId != null) {
+            // 添加accidentInfo
+            Accident accidentInfoNew = new Accident(lng, lat, vehicleId, NONE_RESOLVE);
+            Integer accidentId = accidentManager.insertAccident(accidentInfoNew);
+            // 添加ax
+            Iterator<Double> iteratorAx = axList.iterator();
+            List<Ax> axes = new ArrayList<>();
+            while (iteratorAx.hasNext()) {
+                Double x = iteratorAx.next();
+                Ax ax1 = new Ax(x, accidentInfoNew.getId());
+                axes.add(ax1);
+            }
+            axManager.insertBatch(axes);
+            // 添加ay
+            Iterator<Double> iteratorAy = ayList.iterator();
+            List<Ay> aysInsert = new ArrayList<>();
+            while (iteratorAy.hasNext()) {
+                Double y = iteratorAy.next();
+                Ay ay1 = new Ay(y, accidentInfoNew.getId());
+                aysInsert.add(ay1);
+            }
+            ayManager.insertBatch(aysInsert);
+        } else {
+            log.error("该车辆未注册！");
+        }
+    }
+
+    /**
+     * 获取碰撞方向
+     *
+     * @param axList ax
+     * @param ayList ay
+     */
+    private static String getDirection(List<Double> axList, List<Double> ayList) {
+        double vx = AccidentUtils.vx(axList);
+        double vy = AccidentUtils.vy(ayList);
+        double pdof = AccidentUtils.pdof(vx, vy);
+        int direction = AccidentUtils.direction(pdof);
+        // 1：正面碰撞，2：左侧碰撞，3：追尾碰撞，4：右侧碰撞
+        switch (direction) {
+            case 1:
+                return "正面碰撞";
+            case 2:
+                return "左侧碰撞";
+            case 3:
+                return "追尾碰撞";
+            case 4:
+                return "右侧碰撞";
+            default:
+                break;
+        }
+        return null;
+    }
+
     /**
      * 获取伤情等级
+     *
      * @param accident 事故信息
      * @return 伤情等级
      */

@@ -17,6 +17,7 @@ public interface AccidentMapper {
 
     String TABLE = "tbl_accident";
     String FIELDS = "id, lng, lat, vehicle_id, resolve_state, create_time, update_time";
+    String INSERT_FIELDS = "lng, lat, vehicle_id, resolve_state";
 
     /**
      * 查询事故信息列表
@@ -120,4 +121,14 @@ public interface AccidentMapper {
      */
     @Update("UPDATE " + TABLE + " SET resolve_state = #{state} WHERE id = #{accidentId}")
     void updateAccidentState(@Param("state") Integer state, @Param("accidentId") Integer accidentId);
+
+    /**
+     * 新增事故数据
+     * @param accident 事故信息
+     * @return id
+     */
+    @Insert("INSERT INTO " + TABLE + "(" + INSERT_FIELDS +  ") " +
+            "VALUES (#{accident.lng}, #{accident.lat}, #{accident.vehicleId}, #{accident.resolveState})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int insert(@Param("accident") Accident accident);
 }

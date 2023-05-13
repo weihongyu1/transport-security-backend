@@ -1,18 +1,10 @@
 package com.why.transportsecuritybackend.common.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 
 /**
  * 跨域配置
@@ -20,7 +12,6 @@ import java.util.Collections;
  * @author why
  * @date 2023/04/29 21:14
  **/
-
 @WebFilter(filterName = "CorsFilter ")
 @Configuration
 public class CorsConfig implements Filter {

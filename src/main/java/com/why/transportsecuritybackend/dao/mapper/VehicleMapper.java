@@ -75,6 +75,14 @@ public interface VehicleMapper {
     Vehicle selectById(@Param("id") Integer id);
 
     /**
+     * 根据车牌号查询车辆信息
+     * @param vehicleNumber 车牌号
+     * @return 车辆信息
+     */
+    @Select("SELECT id FROM " + TABLE + " WHERE vehicle_number = #{vehicleNumber}")
+    Integer selectByVehicleNumber(@Param("vehicleNumber") String vehicleNumber);
+
+    /**
      * 查询数据总量
      * @return
      */

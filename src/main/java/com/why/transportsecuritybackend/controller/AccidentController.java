@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -134,4 +135,15 @@ public class AccidentController {
     public Result updateAccidentState(@RequestParam("state") Integer state, @Param("accdientId") Integer accidentId) {
         return accidentService.updateAccidentState(state,accidentId);
     }
+
+    /**
+     * 事故信息瞎咋
+     * @param accidentId 事故id
+     * @param response 返回数据
+     */
+    @GetMapping("/download")
+    public void downLoad(@RequestParam("accidentId") Integer accidentId, HttpServletResponse response) {
+        accidentService.downloadAccident(accidentId, response);
+    }
+
 }

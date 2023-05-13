@@ -24,4 +24,12 @@ public class AxManager {
     public List<Ax> selectAx(Integer accidentId) {
         return axMapper.selectAx(accidentId);
     }
+
+    /**
+     * 批量新增数据
+     * @param axes 横向加速度
+     */
+    public void insertBatch(List<Ax> axes) {
+        axMapper.insertBatch(axes);
+    }
 }
