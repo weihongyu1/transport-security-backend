@@ -3,8 +3,6 @@ package com.why.transportsecuritybackend.service;
 import com.why.transportsecuritybackend.common.response.Result;
 import com.why.transportsecuritybackend.entity.dto.VehicleDTO;
 
-import java.util.Set;
-
 /**
  * 车辆信息业务接口
  *

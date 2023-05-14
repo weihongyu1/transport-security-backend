@@ -1,6 +1,5 @@
 package com.why.transportsecuritybackend.dao.mapper;
 
-import com.why.transportsecuritybackend.dao.pojo.Ax;
 import com.why.transportsecuritybackend.dao.pojo.Ay;
 import org.apache.ibatis.annotations.*;
 

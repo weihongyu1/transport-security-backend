@@ -1,9 +1,7 @@
 package com.why.transportsecuritybackend.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.why.transportsecuritybackend.common.response.Result;
-import com.why.transportsecuritybackend.common.utils.RedisUtils;
 import com.why.transportsecuritybackend.dao.pojo.Accident;
 import com.why.transportsecuritybackend.dao.pojo.Vehicle;
 import com.why.transportsecuritybackend.dao.pojo.VehicleType;

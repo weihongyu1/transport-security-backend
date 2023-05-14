@@ -2,8 +2,6 @@ package com.why.transportsecuritybackend.entity.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
 /**
  * 分页数据
  *

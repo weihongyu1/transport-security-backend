@@ -5,8 +5,6 @@ import com.why.transportsecuritybackend.entity.dto.AccelerationDTO;
 import com.why.transportsecuritybackend.entity.dto.AccidentStateCountDTO;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.List;
 

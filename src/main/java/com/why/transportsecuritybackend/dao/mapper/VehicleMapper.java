@@ -1,8 +1,6 @@
 package com.why.transportsecuritybackend.dao.mapper;
 
 import com.why.transportsecuritybackend.dao.pojo.Vehicle;
-import com.why.transportsecuritybackend.dao.pojo.VehicleType;
-import com.why.transportsecuritybackend.manager.VehicleManager;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

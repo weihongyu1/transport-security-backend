@@ -2,7 +2,6 @@ package com.why.transportsecuritybackend.common.filter;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.why.transportsecuritybackend.common.config.AuthWhiteUriConfig;
 import com.why.transportsecuritybackend.common.constants.RedisConstants;
