@@ -1,4 +1,4 @@
-FROM java:8
+FROM williamyeh/java8
 
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
