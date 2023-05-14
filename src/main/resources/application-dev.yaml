@@ -20,7 +20,28 @@ spring:
         max-active: 32
         min-idle: 8
 
+# 日志配置
+logging:
+  file:
+    path: C:\workspace\java\项目\车辆安全\车辆安全后端\transport-security-backend\logs
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:SSS} [%thread] %-5level %logger{50} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:SSS} === [%thread] === %-5level === %logger{50} === %msg%n'
+
 auth:
   white-uris:
     - '/auth/login'
     - '/auth/register'
+
+# Socket配置
+socket:
+  # 监听端口 8888
+  port: 9999
+  # 线程池 - 保持线程数 20
+  pool-keep: 5
+  # 线程池 - 核心线程数 10
+  pool-core: 2
+  # 线程池 - 最大线程数 20
+  pool-max: 10
+  # 线程队列容量 10
+  pool-queue-init: 2

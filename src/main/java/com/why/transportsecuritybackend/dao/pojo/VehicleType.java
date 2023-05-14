@@ -5,13 +5,13 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 用户角色实体类
+ * 车辆类型实体类
  *
  * @author why
- * @date 2023/04/29 12:22
+ * @date 2023/04/30 01:04
  **/
 @Data
-public class UserRole {
+public class VehicleType {
 
     /**
      * 主键id
@@ -19,9 +19,9 @@ public class UserRole {
     private Integer id;
 
     /**
-     * 角色名称
+     * 车辆类型
      */
-    private String roleName;
+    private String vehicleType;
 
     /**
      * 创建时间
