@@ -20,6 +20,14 @@ spring:
         max-active: 32
         min-idle: 8
 
+# 日志配置
+logging:
+  file:
+    path: C:\workspace\java\项目\车辆安全\车辆安全后端\transport-security-backend\logs
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:SSS} [%thread] %-5level %logger{50} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:SSS} === [%thread] === %-5level === %logger{50} === %msg%n'
+
 auth:
   white-uris:
     - '/auth/login'

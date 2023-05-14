@@ -1,13 +1,13 @@
 # 系统设置
 server:
-  port: 8889
+  port: 8888
 
 spring:
   # 数据源配置
   datasource:
     password: root
-    username: root
-    url: jdbc:mysql://localhost:3306/db_transport_security?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: Why190810
+    url: jdbc:mysql://10.0.8.2:3306/db_transport_security?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: 106.52.60.176
@@ -19,6 +19,14 @@ spring:
         max-idle: 16
         max-active: 32
         min-idle: 8
+
+# 日志配置
+logging:
+  file:
+    path: /home/transport/logs
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:SSS} [%thread] %-5level %logger{50} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:SSS} === [%thread] === %-5level === %logger{50} === %msg%n'
 
 auth:
   white-uris:
