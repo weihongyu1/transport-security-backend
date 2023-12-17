@@ -28,7 +28,7 @@ auth:
 # Socket配置
 socket:
   # 监听端口 8888
-  port: 8888
+  port: 9999
   # 线程池 - 保持线程数 20
   pool-keep: 5
   # 线程池 - 核心线程数 10
