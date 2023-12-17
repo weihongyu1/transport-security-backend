@@ -7,10 +7,10 @@ spring:
   datasource:
     password: root
     username: Why190810
-    url: jdbc:mysql://10.0.8.2:3306/db_transport_security?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://mysql-container:3306/db_transport_security?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
-    host: 106.52.60.176
+    host: redis-container
     port: 6379
     password: brysj$@!HHRHL
     database: 0
@@ -45,3 +45,5 @@ socket:
   pool-max: 10
   # 线程队列容量 10
   pool-queue-init: 2
+
+
